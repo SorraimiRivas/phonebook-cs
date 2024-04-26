@@ -1,0 +1,14 @@
+/Users/kuma/Developer/csharp/phonebook/phonebook/bin/Debug/net8.0/phonebook
+/Users/kuma/Developer/csharp/phonebook/phonebook/bin/Debug/net8.0/phonebook.deps.json
+/Users/kuma/Developer/csharp/phonebook/phonebook/bin/Debug/net8.0/phonebook.runtimeconfig.json
+/Users/kuma/Developer/csharp/phonebook/phonebook/bin/Debug/net8.0/phonebook.dll
+/Users/kuma/Developer/csharp/phonebook/phonebook/bin/Debug/net8.0/phonebook.pdb
+/Users/kuma/Developer/csharp/phonebook/phonebook/obj/Debug/net8.0/phonebook.GeneratedMSBuildEditorConfig.editorconfig
+/Users/kuma/Developer/csharp/phonebook/phonebook/obj/Debug/net8.0/phonebook.AssemblyInfoInputs.cache
+/Users/kuma/Developer/csharp/phonebook/phonebook/obj/Debug/net8.0/phonebook.AssemblyInfo.cs
+/Users/kuma/Developer/csharp/phonebook/phonebook/obj/Debug/net8.0/phonebook.csproj.CoreCompileInputs.cache
+/Users/kuma/Developer/csharp/phonebook/phonebook/obj/Debug/net8.0/phonebook.dll
+/Users/kuma/Developer/csharp/phonebook/phonebook/obj/Debug/net8.0/refint/phonebook.dll
+/Users/kuma/Developer/csharp/phonebook/phonebook/obj/Debug/net8.0/phonebook.pdb
+/Users/kuma/Developer/csharp/phonebook/phonebook/obj/Debug/net8.0/phonebook.genruntimeconfig.cache
+/Users/kuma/Developer/csharp/phonebook/phonebook/obj/Debug/net8.0/ref/phonebook.dll
