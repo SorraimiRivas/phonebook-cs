@@ -12,3 +12,4 @@
 /Users/kuma/Developer/csharp/phonebook/phonebook/obj/Debug/net8.0/phonebook.pdb
 /Users/kuma/Developer/csharp/phonebook/phonebook/obj/Debug/net8.0/phonebook.genruntimeconfig.cache
 /Users/kuma/Developer/csharp/phonebook/phonebook/obj/Debug/net8.0/ref/phonebook.dll
+/Users/kuma/Developer/csharp/phonebook/phonebook/obj/Debug/net8.0/phonebook.sourcelink.json
