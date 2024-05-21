@@ -1,41 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Runtime.InteropServices;
+
+
 
 class Program
 {
 
-    class Contact
-    {
-        public string Name { get; set; }
-        public string LastName { get; set; }
-        public string Number { get; set; }
-        public int Id { get; set; }
-
-        public Contact(string name, string lastName, string number, int id)
-        {
-            Name = name;
-            LastName = lastName;
-            Number = number;
-            Id = id;
-        }
-    }
-
+    static int tableWidth = 73;
     static void Main(string[] args)
     {
 
         List<Contact> contacts = [];
 
+        contacts.Add(new Contact { Name = "John", LastName = "Doe", Number = "1234567890", Id = contacts.Count + 1 });
+        contacts.Add(new Contact { Name = "Jane", LastName = "Doe", Number = "1234567123", Id = contacts.Count + 1 });
+        contacts.Add(new Contact { Name = "Michael", LastName = "Jordan", Number = "1245567890", Id = contacts.Count + 1 });
+        contacts.Add(new Contact { Name = "Hiram", LastName = "Marim", Number = "1234560099", Id = contacts.Count + 1 });
+        contacts.Add(new Contact { Name = "George", LastName = "Bush", Number = "1234560099", Id = contacts.Count + 1 });
+        contacts.Add(new Contact { Name = "Tai", LastName = "Lopez", Number = "1234560099", Id = contacts.Count + 1 });
+        contacts.Add(new Contact { Name = "Karim", LastName = "Abad", Number = "1234560099", Id = contacts.Count + 1 });
+        contacts.Add(new Contact { Name = "Nolan", LastName = "Freeman", Number = "1234560099", Id = contacts.Count + 1 });
+        contacts.Add(new Contact { Name = "Morgan", LastName = "Ferguson", Number = "1234560099", Id = contacts.Count + 1 });
+
         while (true)
         {
-            contacts.Add(new Contact("John", "Doe", "1234567890", contacts.Count + 1));
-            contacts.Add(new Contact("Jane", "Doe", "1234567123", contacts.Count + 1));
-            contacts.Add(new Contact("Michael", "Jordan", "1245567890", contacts.Count + 1));
-            contacts.Add(new Contact("Hiram", "Marim", "1234560099", contacts.Count + 1));
-            contacts.Add(new Contact("George", "Bush", "1234560099", contacts.Count + 1));
-            contacts.Add(new Contact("Tai", "Lopez", "1234560099", contacts.Count + 1));
-            contacts.Add(new Contact("Karim", "Abad", "1234560099", contacts.Count + 1));
-            contacts.Add(new Contact("Nolan", "Freeman", "1234560099", contacts.Count + 1));
 
             Console.WriteLine();
             Console.WriteLine("Phonebook");
@@ -48,7 +38,7 @@ class Program
             Console.WriteLine("6. Exit");
             Console.WriteLine("");
             Console.Write("Enter your choice: ");
-            string choice = Console.ReadLine() ?? "";
+            string choice = Console.ReadLine() ?? string.Empty;
             Console.WriteLine();
 
             switch (choice)
@@ -56,27 +46,22 @@ class Program
                 case "1":
                     AddContact(contacts);
                     break;
-
                 case "2":
                     ShowContacts(contacts);
                     break;
                 case "3":
                     SearchContact(contacts);
                     break;
-
                 case "4":
                     EditContact(contacts);
                     break;
                 case "5":
                     DeleteContact(contacts);
                     break;
-
                 case "6":
                     Console.WriteLine("Exiting...");
                     return;
-
                 default:
-
                     Console.WriteLine("Invalid choice! Please enter a valid option.");
                     break;
             }
@@ -110,27 +95,62 @@ class Program
             return;
         }
 
-        contacts.Add(new Contact(name, lastName, number, contacts.Count + 1));
+        contacts.Add(new Contact { Name = name, LastName = lastName, Number = number, Id = contacts.Count + 1 });
+
 
         Console.WriteLine("Contact added successfully!");
     }
 
     static void ShowContacts(List<Contact> contacts)
     {
-        if (contacts.Count == 0)
-        {
-            Console.WriteLine("No contacts found!");
-            return;
-        }
+        // convert to string formatting
+        Console.Clear();
+        Console.WriteLine(new string('-', tableWidth));
+        PrintRow("ID", "Name", "Last name", "Phone number");
+        Console.WriteLine(new string('-', tableWidth));
+        Console.WriteLine(new string('-', tableWidth));
 
-        Console.WriteLine("Name | Last Name | Number | ID");
-        Console.WriteLine();
         foreach (Contact contact in contacts)
         {
-            Console.WriteLine($"{contact.Name} | {contact.LastName} | {contact.Number} | {contact.Id}");
+
+            //Console.WriteLine("{0,-20} {1,5}\n", "Name", "Hours");
+            PrintRow(contact.Id.ToString(), contact.Name, contact.LastName, contact.Number);
+
         }
+        PrintLine();
+
     }
 
+    static void PrintLine()
+    {
+        Console.WriteLine(new string('-', tableWidth));
+    }
+    static void PrintRow(params string[] columns)
+    {
+        int width = (tableWidth - columns.Length) / columns.Length;
+        string row = "|";
+
+        foreach (string column in columns)
+        {
+            row += AlignCenter(column, width) + "|";
+        }
+
+        Console.WriteLine(row);
+    }
+
+    static string AlignCenter(string text, int width)
+    {
+        text = text.Length > width ? text.Substring(0, width - 3) + "..." : text;
+
+        if (string.IsNullOrEmpty(text))
+        {
+            return new string(' ', width);
+        }
+        else
+        {
+            return text.PadRight(width - (width - text.Length) / 2).PadLeft(width);
+        }
+    }
     static void DeleteContact(List<Contact> contacts)
     {
         ShowContacts(contacts);
@@ -138,32 +158,19 @@ class Program
         Console.Write("Enter the id of the contact you want to delete: ");
         string id = Console.ReadLine() ?? "";
 
+        var contactToDelete = contacts.Find(c => c.Id.ToString() == id);
 
-        foreach (Contact contact in contacts)
+        if (contactToDelete is null)
         {
-
-            if (id == "" || id == null)
-            {
-                Console.WriteLine("Invalid ID! Please enter a valid ID.");
-                break;
-            }
-
-            if (contacts.Find(c => c.Id.ToString() == id) == null)
-            {
-                Console.WriteLine($"Contact with ID {id} does not exist!");
-                break;
-            }
-
-            if (id == contact.Id.ToString())
-            {
-                Console.WriteLine("");
-                string deletedContact = $"{contact.Name} {contact.LastName}";
-                contacts.Remove(contact);
-                Console.WriteLine($"{deletedContact} deleted successfully!");
-                break;
-            }
+            Console.WriteLine("Invalid ID! Please enter a valid ID.");
+            return;
         }
+
+        contacts.Remove(contactToDelete);
+
+        Console.WriteLine("Contact has been deleted succesfully!");
     }
+
     static void SearchContact(List<Contact> contacts)
     {
 
@@ -176,7 +183,7 @@ class Program
         Console.Write("Enter contact name to search: ");
         string name = Console.ReadLine() ?? "";
 
-        List<Contact> searchResults = contacts.FindAll(c => c.Name.ToLower().Contains(name.ToLower()));
+        var searchResults = contacts.FindAll(c => string.Equals(c.Name, name, StringComparison.OrdinalIgnoreCase));
 
         if (searchResults.Count == 0)
         {
@@ -187,15 +194,19 @@ class Program
         Console.WriteLine("Search results:");
         foreach (Contact contact in searchResults)
         {
-            Console.WriteLine($"Name: {contact.Name} {contact.LastName}, Number: {contact.Number}");
+            Console.Clear();
+            PrintLine();
+            PrintRow("ID", "Name", "Last name", "Phone number");
+            PrintLine();
+
+            PrintRow(contact.Id.ToString(), contact.Name, contact.LastName, contact.Number);
         }
+        PrintLine();
     }
 
     static void EditContact(List<Contact> contacts)
     {
-        var loopOn = true;
-
-        while (loopOn)
+        while (true)
         {
             Console.WriteLine("1. Edit contact name");
             Console.WriteLine("2. Edit contact last name");
@@ -233,7 +244,7 @@ class Program
                 Console.Write("Enter the id of the contact you want to edit: ");
                 string id = Console.ReadLine() ?? "";
 
-                if (id == "" || id == null)
+                if (string.IsNullOrEmpty(id))
                 {
                     Console.WriteLine("Invalid ID! Please enter a valid ID.");
                     return;
@@ -243,19 +254,20 @@ class Program
                 string newName = Console.ReadLine() ?? "";
                 Console.WriteLine();
 
-                foreach (Contact contact in contacts)
+                var nameToChange = contacts.Find(c => c.Id.ToString() == id);
+
+                if (nameToChange is null)
                 {
-                    if (id == contact.Id.ToString())
-                    {
-                        string oldName = contact.Name;
-
-                        contact.Name = newName;
-                        Console.WriteLine($"{oldName} is now {newName}!");
-                        Console.WriteLine();
-
-                        return;
-                    }
+                    Console.WriteLine("Invalid ID! Please enter a valid ID.");
+                    return;
                 }
+
+                var prevValue = nameToChange.Number;
+
+                nameToChange.Number = newName;
+
+                System.Console.WriteLine($"{prevValue} is now {newName}");
+                PrintRow("");
             };
 
             static void EditLastName(List<Contact> contacts)
@@ -265,7 +277,7 @@ class Program
                 Console.Write("Enter the id of the contact you want to edit: ");
                 string id = Console.ReadLine() ?? "";
 
-                if (id == "" || id == null)
+                if (string.IsNullOrEmpty(id))
                 {
                     Console.WriteLine("Invalid ID! Please enter a valid ID.");
                     return;
@@ -274,17 +286,19 @@ class Program
                 Console.Write("Enter the new last name: ");
                 string newLastName = Console.ReadLine() ?? "";
 
-                foreach (Contact contact in contacts)
-                {
-                    if (id == contact.Id.ToString())
-                    {
-                        string oldLastName = contact.LastName;
+                var lastNameToChange = contacts.Find(c => c.Id.ToString() == id);
 
-                        contact.LastName = newLastName;
-                        Console.WriteLine($"{oldLastName} is now {newLastName}!");
-                        return;
-                    }
+                if (lastNameToChange is null)
+                {
+                    Console.WriteLine("Invalid ID! Please enter a valid ID.");
+                    return;
                 }
+
+                var prevValue = lastNameToChange.LastName;
+
+                lastNameToChange.LastName = newLastName;
+
+                Console.WriteLine($"{prevValue} is now {newLastName}");
             };
 
             static void EditNumber(List<Contact> contacts)
@@ -294,7 +308,7 @@ class Program
                 Console.Write("Enter the id of the contact you want to edit: ");
                 string id = Console.ReadLine() ?? "";
 
-                if (id == "" || id == null)
+                if (string.IsNullOrEmpty(id))
                 {
                     Console.WriteLine("Invalid ID! Please enter a valid ID.");
                     return;
@@ -303,19 +317,20 @@ class Program
                 Console.Write("Enter the new number: ");
                 string newNumber = Console.ReadLine() ?? "";
 
-                foreach (Contact contact in contacts)
-                {
-                    if (id == contact.Id.ToString())
-                    {
-                        string oldNumber = contact.Number;
+                var numberToChange = contacts.Find(c => c.Id.ToString() == id);
 
-                        contact.Number = newNumber;
-                        Console.WriteLine($"{oldNumber} is now {newNumber}!");
-                        return;
-                    }
+                if (numberToChange is null)
+                {
+                    Console.WriteLine("Invalid ID! Please enter a valid ID.");
+                    return;
                 }
+
+                var prevValue = numberToChange.Number;
+
+                numberToChange.Number = newNumber;
+
+                System.Console.WriteLine($"{prevValue} is now {newNumber}");
             };
         }
     }
-
 }
