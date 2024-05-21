@@ -17,4 +17,4 @@
 # Second Wave
 
 [ ] Refactor to rehuse methods and delete redundant code. (Print contacts with the same method taking the value instead of the list)
-[ ] Refactor console output (String formatting to output values in columns, and aligned).
+[x] Refactor console output (String formatting to output values in columns, and aligned).
